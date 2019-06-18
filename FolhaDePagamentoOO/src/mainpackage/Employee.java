@@ -5,17 +5,30 @@ public class Employee{
     private String address;
     private String typePayment;
     private String wayPayment;
-    private int id;
+    private String id;
     private String payday;
-
-    public Employee(String name, String address, String typePayment, String wayPayment, int id){
+    private UnionContract union;
+    //TODO
+    public Employee(String name, String address, String typePayment, String wayPayment){
         this.name = name;
         this.address = address;
         this.typePayment = typePayment; // setar o payday a partir daqui :)
         this.wayPayment= wayPayment;
+    }
+
+    public void enterUnion(double unionFee, String name, int patternId){
+        union.setUnionMember(true);
+        union.setUnionFee(unionFee);
+        union.setUnionId(patternId, name);
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
+    public void setUnion(){
+        //TODO falta fazer tudo aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    }
 
     public String getName() {
         return name;
@@ -33,7 +46,7 @@ public class Employee{
         return wayPayment;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

@@ -6,8 +6,8 @@ public class Salaried extends Employee implements Payday{
     private double salary;
     private double baseSalary;
 
-    public Salaried(String name, String address, String typePayment, String wayPayment, int id, double baseSalary){
-        super(name,address,typePayment,wayPayment,id);
+    public Salaried(String name, String address, String typePayment, String wayPayment, double baseSalary){
+        super(name,address,typePayment,wayPayment);
         this.baseSalary = baseSalary;
     }
     public int getHours() {
@@ -25,5 +25,12 @@ public class Salaried extends Employee implements Payday{
     @Override
     public void definePayday() {
         /*  */
+    }
+
+    @Override
+    public String toString() {
+        String str;
+        str = "Salaried employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: R$" + getBaseSalary() + "\n";
+        return str;
     }
 }
