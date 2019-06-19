@@ -19,8 +19,14 @@ public class Commissioned extends Salaried implements Payday{
 
     @Override
     public String toString() {
-        String str;
+        String str, union;
         str = "Commissioned employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: " + getBaseSalary() + "\n";
-        return str;
+        if(getPartUnion()) {
+        	union = "--Union Member--" + "\nUnion Fee: R$" + getUnionFee() + " , Service Fee(until now): R$" + getServiceFee() + "\n";
+        	//TODO ta dando erro no UnionContract---------------------------------------------------------------------------------------------------- fazer UML
+        }
+        else
+        	union = "--Not union member--";
+        return str + union;
     }
 }

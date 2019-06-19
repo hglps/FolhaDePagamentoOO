@@ -1,14 +1,17 @@
 package mainpackage;
 
-public class Employee{
-    private String name;
+public class Employee extends UnionContract{
+    //TODO olhar o extends
+	private String name;
     private String address;
     private String typePayment;
     private String wayPayment;
     private String id;
     private String payday;
-    private UnionContract union;
+    private UnionContract union = new UnionContract();
+    private boolean partUnion;
     //TODO
+
     public Employee(String name, String address, String typePayment, String wayPayment){
         this.name = name;
         this.address = address;
@@ -17,17 +20,17 @@ public class Employee{
     }
 
     public void enterUnion(double unionFee, String name, int patternId){
-        union.setUnionMember(true);
-        union.setUnionFee(unionFee);
+    	partUnion = true;
+    	union.setUnionFee(unionFee);
         union.setUnionId(patternId, name);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
-    public void setUnion(){
-        //TODO falta fazer tudo aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    public String getPayday() {
+        return payday;
     }
 
     public String getName() {
@@ -45,17 +48,45 @@ public class Employee{
     public String getWayPayment() {
         return wayPayment;
     }
-
-    public String getId() {
-        return id;
+    
+    public boolean getPartUnion() {
+    	return partUnion;
     }
 
-    public String getPayday() {
-        return payday;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setTypePayment(String typePayment) {
+        this.typePayment = typePayment;
+    }
+
+    public void setWayPayment(String wayPayment) {
+        this.wayPayment = wayPayment;
+    }
+
+    public void setPayday(String payday) {
+        this.payday = payday;
+    }
+
+
+    public void setPartUnion(boolean partUnion) {
+        this.partUnion = partUnion;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    
+
+
 
     public void startPayday() {
-        String finalPayday;
         if(typePayment.equals("c"))
             this.payday = "s 02 4";
         else if(typePayment.equals("h"))

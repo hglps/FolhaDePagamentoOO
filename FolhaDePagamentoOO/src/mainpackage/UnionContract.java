@@ -1,11 +1,10 @@
 package mainpackage;
 //TODO TBC
-public abstract class UnionContract {
+public class UnionContract {
     private double unionFee;
     private double serviceFee;
     private String unionId;
-    private boolean unionMember;
-    private boolean paidUnionFee;
+    private boolean paidUnionFee; //TODO
 
 
     public void setPaidUnionFee(boolean paidUnionFee) {
@@ -31,10 +30,6 @@ public abstract class UnionContract {
         this.serviceFee += serviceFee;
     }
 
-    public void setUnionMember(boolean unionMember) {
-        this.unionMember = unionMember;
-    }
-
     public double getUnionFee() {
         return unionFee;
     }
@@ -50,8 +45,7 @@ public abstract class UnionContract {
     public boolean getPaidUnionFee() {
         return paidUnionFee;
     }
+    
+   
 
-    public boolean getUnionMember(){
-        return unionMember;
-    }
 }

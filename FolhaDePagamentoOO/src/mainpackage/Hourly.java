@@ -28,9 +28,14 @@ public class Hourly extends Employee implements Payday {
 
     @Override
     public String toString() {
-        String str;
+        String str,union;
         str = "Hourly employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nHourly Rate: R$" + getHourlyRate() + "\n";
-        return str;
+        if(getPartUnion()) {
+        	union = "--Union Member--" + "\nUnion Fee: R$" + getUnionFee() + " , Service Fee(until now): R$" + getServiceFee() + "\n";
+        }
+        else
+        	union = "--Not union member--\n";
+        return str + union;
 
     }
 }

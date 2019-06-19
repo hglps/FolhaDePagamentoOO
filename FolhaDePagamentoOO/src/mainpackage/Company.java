@@ -2,18 +2,20 @@ package mainpackage;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
 public class Company {
     public static Scanner read = new Scanner(System.in);
     private final static int patternId = 19002100;
     private final static int maxSize = 500;
     private static ArrayList<Employee> employees = new ArrayList<Employee>(maxSize);
+    private static MyCalendar date = new MyCalendar();
     /*
-    * ID = patternID + name + "**"
+    * ID = patternID + # + name.susbtring(0,3)
     * */
     public static void main(String[] args) {
         String password = "admin";
         String reading;
-        //TODO oeoeoeoeoe
+        //TODO to loko
         while(true){
             screenEnterPassword();
             reading = read.nextLine();
@@ -36,10 +38,14 @@ public class Company {
                         deleteEmployee();
                     }
                     else if(choice == 3){
-                        //cartao de ponto vish
+                        //TODO cartao de ponto vish
                     }
+                    
                     else if(choice == 6){
-                        changeRegister();
+                        changeRegister();//TODO continuar DAQUI AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                    }
+                    else if(choice == 7) {
+                    	payroll();
                     }
                     else if(choice == 11){
                         showAll();
@@ -59,6 +65,12 @@ public class Company {
         }
 
 
+    }
+    
+    private static void payroll() {
+    	date.getDate();
+    	System.out.println("passou um dia :))");
+    	date.setNewDate();
     }
 
     private static void setUnionCondition(double unionFee, boolean unionMember, int index) {
@@ -151,13 +163,57 @@ public class Company {
         System.out.println("Enter ID:");
         String id = read.nextLine();
         int index = getIndex(id);
+        int option;
         /* TODO create method in Employee.java */
+        while(true){
+
+        screenChangeRegister();
+        option = read.nextInt();
+        read.nextLine();
+        if(option == 0)
+            break;
+        if(option == 3){
+            Employee changedEmployee = null; //TODO talvez de erro
+            Employee currEmployee = employees.get(index); //TODO funciona
+            System.out.println("\nInsert new type of payment:\n" +
+                    "h - hourly / s - salaried / c - commissioned"); String newType = read.nextLine();
+            if( newType.equals("h")){
+                System.out.print("Insert new hourly rate: (Number format: 9999,99)\nR$ ");
+                double hourlyRate = read.nextDouble(); //TODO talvez tenha getchar dps
+                changedEmployee = new Hourly(currEmployee.getName(), currEmployee.getAddress(), "h", currEmployee.getWayPayment(), hourlyRate);
+                employees.set(index, changedEmployee);
+            }
+            else if(newType.equals("s") || newType.equals("c")){
+                System.out.print("Insert new base salary: (Number format: 9999,99)\nR$ ");
+                double baseSalary = read.nextDouble();
+                if(newType.equals("s")){
+                    changedEmployee = new Salaried(currEmployee.getName(), currEmployee.getAddress(), "s", currEmployee.getWayPayment(), baseSalary);
+                }
+                else if(newType.equals("c")){
+                    changedEmployee = new Commissioned(currEmployee.getName(), currEmployee.getAddress(), "c", currEmployee.getWayPayment(), baseSalary);
+                }
+                employees.set(index, changedEmployee);
+            }
+        }
+
+
+        }// end of while true
+
     }
 
     private static void showAll(){
         System.out.println(employees);
     }
-
+    private static void screenChangeRegister () {
+        System.out.println("Select the required change:\n" +
+                "1 - Name\n" +
+                "2 - Address\n" +
+                "3 - Type of payment\n" +
+                "4 - Method of payment\n" +
+                "5 - Part of union\n" +
+                "6 - Union fee\n" +
+                "0 - Back to main screen");
+    }
 
 
     private static void screenEnterPassword(){
@@ -167,7 +223,7 @@ public class Company {
           System.out.print("Password: ");
     }
     private static void visualizeOptions () {
-        //getDate();
+        date.getDate();
         System.out.println("\n------------------------------------------------------------\n" +
                 "Insert 1 to ADD a new employee;");
         System.out.println("Insert 2 to REMOVE an employee;");

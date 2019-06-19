@@ -29,8 +29,13 @@ public class Salaried extends Employee implements Payday{
 
     @Override
     public String toString() {
-        String str;
+        String str,union;
         str = "Salaried employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: R$" + getBaseSalary() + "\n";
-        return str;
+        if(getPartUnion()) {
+        	union = "--Union Member--" + "\nUnion Fee: R$" + getUnionFee() + " , Service Fee(until now): R$" + getServiceFee() + "\n";
+        }
+        else
+        	union = "--Not union member--";
+        return str + union;
     }
 }
