@@ -1,13 +1,14 @@
 package mainpackage;
 
-public class Employee extends UnionContract{
-    //TODO olhar o extends
+public class Employee extends TimeCard{
+    //TODO
 	private String name;
     private String address;
     private String typePayment;
     private String wayPayment;
     private String id;
     private String payday;
+    private int hours;
     private UnionContract union = new UnionContract();
     private boolean partUnion;
     //TODO
@@ -20,13 +21,21 @@ public class Employee extends UnionContract{
     }
 
     public void enterUnion(double unionFee, String name, int patternId){
-    	partUnion = true;
-    	union.setUnionFee(unionFee);
-        union.setUnionId(patternId, name);
+    	if(partUnion == false){
+            partUnion = true;
+            union.setUnionFee(unionFee);
+            union.setUnionId(patternId, name);
+        }
+    	else
+            System.out.println("Already in union!");
     }
 
     public String getId() {
         return id;
+    }
+
+    public int getHours() {
+        return hours;
     }
 
     public String getPayday() {
@@ -51,6 +60,10 @@ public class Employee extends UnionContract{
     
     public boolean getPartUnion() {
     	return partUnion;
+    }
+
+    public UnionContract getUnion(){
+        return union;
     }
 
     public void setName(String name) {
@@ -95,4 +108,16 @@ public class Employee extends UnionContract{
             this.payday = "m 00";
     }
 
+    public void leaveUnion() {
+        this.setPartUnion(false);
+        this.union.setUnionFee(0);
+        this.union.setPaidUnionFee(false);
+        this.union.setServiceFee(0);
+    }
+
+    @Override
+    public void calculateHours(){
+        int hours = getHoursWorked();
+        this.hours = hours;
+    }
 }

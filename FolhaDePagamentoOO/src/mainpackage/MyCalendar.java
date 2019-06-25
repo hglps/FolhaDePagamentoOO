@@ -26,12 +26,12 @@ public class MyCalendar {
             }
             counterMonth = (counterMonth + 1) % 12;
             // TODO fix commissioned and hourly employees paying twice the union payment
-            getLastWorkDay();
+            setLastWorkDay();
         }
         dayWeek = (dayWeek + 1) % 7;
     }
 
-    private void getLastWorkDay() {
+    private void setLastWorkDay() {
         int lastDay = day[counterMonth];
         String dayOfLast = week[(dayWeek + lastDay) % 7];
 
@@ -57,8 +57,21 @@ public class MyCalendar {
             return false;
     }
 
+    public String getDayWeek(){
+        return week[dayWeek];
+    }
 
+    public int getLastWorkDay(){
+        return lastWorkDay;
+    }
 
+    public int getCounterDate() {
+        return counterDate;
+    }
+
+    public String getMonth(){
+        return month[counterMonth];
+    }
 }
 
 

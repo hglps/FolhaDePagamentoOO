@@ -12,10 +12,16 @@ public class UnionContract {
     }
 
     public void setUnionId(int pattern, String name) {
-        if(name.length() < 3)
-            this.unionId = pattern + "@" + name.toLowerCase();
-        else
-            this.unionId = pattern + "@" + name.substring(0,3).toLowerCase();
+        if(pattern == 0){
+            this.unionId = null;
+        }
+        else{
+            if(name.length() < 3)
+                this.unionId = pattern + "#" + name.toLowerCase();
+            else
+                this.unionId = pattern + "#" + name.substring(0,3).toLowerCase();
+        }
+
     }
 
     public void setUnionFee(double unionFee) {
