@@ -1,6 +1,6 @@
 package mainpackage;
 
-public class MyCalendar {
+public class MyCalendar extends Company {
     private int year = 2019;
     private int[] day = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private int counterDate = 26;
@@ -25,6 +25,9 @@ public class MyCalendar {
                 else day[1] = 28;
             }
             counterMonth = (counterMonth + 1) % 12;
+            for(int i = 0; i<getEmployees().size();i++ ){
+                getEmployees().get(i).getUnion().setPaidUnionFee(false);
+            }
             // TODO fix commissioned and hourly employees paying twice the union payment
             setLastWorkDay();
         }

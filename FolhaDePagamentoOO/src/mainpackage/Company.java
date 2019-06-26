@@ -11,88 +11,90 @@ public class Company {
     private static MyCalendar date = new MyCalendar();
     private static String[] schedules = new String[maxSize];
     private static int counterSchedules = 0;
+
+    public static ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
     /*
     * ID = patternID + # + name.susbtring(0,3)
     * */
     public static void main(String[] args) {
         String password = "admin";
         String reading;
+        boolean error;
         //TODO to loko
         while(true){
+            error = true;
             screenEnterPassword();
             reading = read.nextLine();
             if(reading.equals(password)){
                 //start main code
-                System.out.println("Started main code :)");
-                //add someone with id properly
+//                System.out.println("Started main code :)");
                 visualizeOptions();
-                while(read.hasNextInt()){
-                    int choice;
-                    choice = read.nextInt();
-                    if(choice == -1) {
-                        System.out.println("\n\nPayroll system finished\n");
-                        read.nextLine();
-                        break;
-                    }
-                    else if(choice == 1){
-                        addEmployee();
-                    }
-                    else if(choice == 2){
-                        deleteEmployee();
-                    }
-                    else if(choice == 3){
-                        setTimeCheck();
-                    }
-                    else if(choice == 4){
-                        resultSales();
-                    }
-                    else if(choice == 5){
-                        serviceFee();
-                    }
-                    else if(choice == 6){
-                        changeRegister();
-                    }
-                    else if(choice == 7) {
-                        read.nextLine();
-                        System.out.println("Warning!! Beware that a day is passed after the payroll execution!");
-                        System.out.println("If you want to proceed, enter 'yes' or anything else to go back to main screen");
-                        String enter = read.nextLine();
-                        if(enter.equalsIgnoreCase("yes"))
-                    	    payroll();
-                        else
-                            System.out.println("Back to main screen");
-                    }
-                    else if(choice == 8){
-                        undoRedo();
-                    }
-                    else if(choice == 9){
-                        setNewPayday();
-                    }
-                    else if(choice == 10){
-                        createSchedules();
-                    }
-
-                    else if(choice == 11){
-                        showInfo();
-                    }
-                    else if(choice == 12){
-                        read.nextLine();
-                        System.out.println("Insert the current password:");
-                        String currentPasswordCheck = read.nextLine();
-                        if(currentPasswordCheck.equals(password)){
-                            System.out.println("OK, now insert the new password:");
-                            password = read.nextLine();
-                            System.out.println("The new password is "+ password);
+                while(true){
+                    error = true;
+                    int choice=-1;
+                    while(error) {
+                        try {
+                            choice = read.nextInt();
+                            error = false;
+                        } catch (Exception e) {
+                            System.out.println("INVALID INPUT! Expecting an integer value! Try again!");
+                            visualizeOptions();
+                            read.nextLine();
+                            error = true;
                         }
-                        else
-                            System.out.println("Wrong password!");
                     }
-                    else System.out.println("Invalid option!\nPlease, insert a valid option:\n");
+                        if (choice == -1) {
+                            System.out.println("\n\nPayroll system finished\n");
+                            read.nextLine();
+                            break;
+                        } else if (choice == 1) {
+                            addEmployee();
+                        } else if (choice == 2) {
+                            deleteEmployee();
+                        } else if (choice == 3) {
+                            setTimeCheck();
+                        } else if (choice == 4) {
+                            resultSales();
+                        } else if (choice == 5) {
+                            serviceFee();
+                        } else if (choice == 6) {
+                            changeRegister();
+                        } else if (choice == 7) {
+                            read.nextLine();
+                            System.out.println("Warning!! Be aware that a day is passed after the payroll execution!");
+                            System.out.println("If you want to proceed, enter 'yes' or anything else to go back to main screen");
+                            String enter = read.nextLine();
+                            if (enter.equalsIgnoreCase("yes"))
+                                payroll();
+                            else
+                                System.out.println("Back to main screen");
+                        } else if (choice == 8) {
+                            undoRedo();
+                        } else if (choice == 9) {
+                            setNewPayday();
+                        } else if (choice == 10) {
+                            createSchedules();
+                        } else if (choice == 11) {
+                            showInfo();
+                        } else if (choice == 12) {
+                            read.nextLine();
+                            System.out.println("Insert the current password:");
+                            String currentPasswordCheck = read.nextLine();
+                            if (currentPasswordCheck.equals(password)) {
+                                System.out.println("OK, now insert the new password:");
+                                password = read.nextLine();
+                                System.out.println("The new password is " + password);
+                            } else
+                                System.out.println("Wrong password!");
+                        } else System.out.println("Invalid option!\nPlease, insert a valid option:\n");
 
-                    visualizeOptions();
-                }
+                        visualizeOptions();
+                }// while hasNext
 
-            }
+            }// check password
             else if(reading.equalsIgnoreCase("quit")){
                 screenSystemFinished();
                 break;
@@ -451,6 +453,7 @@ public class Company {
     	    else if(employees.get(i) instanceof  Salaried)
     	        ((Salaried) employees.get(i)).calculateSalary(date.getDayWeek(), date.getCounterDate(), date.getLastWorkDay());
         }
+        date.setNewDate();
     }
 
     private static void setUnionCondition(double unionFee, boolean unionMember, int index) {
