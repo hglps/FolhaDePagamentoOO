@@ -9,9 +9,37 @@ public class Employee extends TimeCard{
     private String id;
     private String payday;
     private int hours;
+    private double salary;
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
     private UnionContract union = new UnionContract();
     private boolean partUnion;
-    //TODO
+    private int daysWorked;
+    private int weeksWorked;
+
+    public int getWeeksWorked() {
+        return weeksWorked;
+    }
+
+    public void setWeeksWorked(int weeksWorked) {
+        this.weeksWorked = weeksWorked;
+    }
+
+    public int getDaysWorked() {
+        return daysWorked;
+    }
+
+    public void setDaysWorked(int daysWorked) {
+        this.daysWorked = daysWorked;
+    }
+//TODO
 
     public Employee(String name, String address, String typePayment, String wayPayment){
         this.name = name;
@@ -95,16 +123,14 @@ public class Employee extends TimeCard{
         this.id = id;
     }
 
-    
-
 
 
     public void startPayday() {
-        if(typePayment.equals("c"))
+        if(getTypePayment().equals("c"))
             this.payday = "s 02 4";
-        else if(typePayment.equals("h"))
+        else if(getTypePayment().equals("h"))
             this.payday = "s 01 4";
-        else if(typePayment.equals("m"))
+        else if(getTypePayment().equals("s"))
             this.payday = "m 00";
     }
 
@@ -120,4 +146,11 @@ public class Employee extends TimeCard{
         int hours = getHoursWorked();
         this.hours = hours;
     }
+
+    public void addDayWorked(){
+        this.daysWorked += 1;
+        if(this.daysWorked >= 7)
+            this.weeksWorked +=1;
+    }
+
 }

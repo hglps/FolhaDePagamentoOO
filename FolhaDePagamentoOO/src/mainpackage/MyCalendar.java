@@ -57,8 +57,8 @@ public class MyCalendar {
             return false;
     }
 
-    public String getDayWeek(){
-        return week[dayWeek];
+    public int getDayWeek(){
+        return dayWeek;
     }
 
     public int getLastWorkDay(){

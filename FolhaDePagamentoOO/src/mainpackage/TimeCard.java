@@ -9,6 +9,8 @@ public abstract class TimeCard {
 
     public abstract void calculateHours();
 
+    public abstract void addDayWorked();
+
     public int getHoursWorked(){
         return hoursWorked;
     }
@@ -56,6 +58,7 @@ public abstract class TimeCard {
         this.minuteOut = minuteOut;
         setHoursWorked(hourIn, hourOut, minuteIn, minuteOut);
         calculateHours();
+        addDayWorked();
     }
 
 }
