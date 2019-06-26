@@ -9,6 +9,18 @@ public class Employee extends TimeCard{
     private String id;
     private String payday;
     private int hours;
+    private UnionContract union = new UnionContract();
+    private boolean partUnion;
+    private int daysWorked = 0;
+    private int weeksWorked;
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+    public void addHours(int hours){
+        this.hours += hours;
+    }
+
     private double salary;
 
     public double getSalary() {
@@ -18,11 +30,6 @@ public class Employee extends TimeCard{
     public void setSalary(double salary) {
         this.salary = salary;
     }
-
-    private UnionContract union = new UnionContract();
-    private boolean partUnion;
-    private int daysWorked;
-    private int weeksWorked;
 
     public int getWeeksWorked() {
         return weeksWorked;
@@ -141,7 +148,7 @@ public class Employee extends TimeCard{
         this.union.setServiceFee(0);
     }
 
-    @Override
+
     public void calculateHours(){
         int hours = getHoursWorked();
         this.hours = hours;

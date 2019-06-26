@@ -137,25 +137,26 @@ public class Company {
                 if(opt.equals("over"))
                     System.out.println("Back to main screen.\n-----------------------------------------------------------------------");
                 else{
-                    while(error){
-                        try{
-                            optionSchedule = Integer.parseInt(opt);
-                            error =false;
-                        }
-                        catch(Exception e){
-                            System.out.println("INVALID INPUT! Expected integer number! Try again!");
-                            error = true;
+                    if(opt.equals(currEmployee.getPayday().substring(0,1))) {
+                            while (error) {
+                                try {
+                                    optionSchedule = Integer.parseInt(opt);
+                                    error = false;
+                                } catch (Exception e) {
+                                    System.out.println("INVALID INPUT! Expected integer number! Try again!");
+                                    error = true;
+                                }
+                            }
+                            currEmployee.setPayday(schedules[optionSchedule]);
+                            System.out.println("New schedule registered to employee " + currEmployee.getName());
                         }
                     }
-                    currEmployee.setPayday(schedules[optionSchedule]);
-                    System.out.println("New schedule registered to employee "+ currEmployee.getName());
                 }
 
 
             }
 
 
-        }
     }
 
     private static void createSchedules() {
@@ -205,10 +206,10 @@ public class Company {
     }
 
     private static void undoRedo() {
-        System.out.println("Method not made in time!");
+        System.out.println("\nMethod not made in time!");
         System.out.println("It'd be used 2 stacks. One for undo, the other for redo.\nCreating a new object for every employee and, then, adding to the stack, to be saved, properly!");
         System.out.println("Just a concept!");
-        System.out.println("Back to main screen! Press enter to go back!");
+        System.out.println("Back to main screen! Press enter to go back!\n");
         read.nextLine();
     }
 
@@ -382,7 +383,15 @@ public class Company {
                     }
 
                     currEmployee.setHourOut(hourOut);
-                    currEmployee.setMinuteOut(minuteOut); // calculateHours( ) is called here!
+                    currEmployee.addHours( currEmployee.setMinuteOut(minuteOut) );
+                    currEmployee.addDayWorked();// calculateHours( ) is called here!
+                    if(currEmployee instanceof Hourly)
+                        ((Hourly)currEmployee).calculateHours();
+                    else if(currEmployee instanceof Commissioned)
+                        ((Commissioned)currEmployee).calculateHours();
+                    else if(currEmployee instanceof Salaried)
+                        ((Salaried)currEmployee).calculateHours();
+                    System.out.println("hours = "+currEmployee.getHours());
                     System.out.println(currEmployee.getHourOut() +":"+ currEmployee.getMinuteOut() +" exit registered successfully to employee "+ currEmployee.getName());
 
                     currEmployee.setHourIn(0); currEmployee.setHourOut(0); currEmployee.setMinuteIn(0); currEmployee.setMinuteOut(0);
@@ -605,7 +614,6 @@ public class Company {
         id = getId(index);
         employees.get(index).setId(id);
         employees.get(index).startPayday();
-        clearScreen();
         setUnionCondition(unionFee,unionMember, index);
 
         screenWelcomeNewEmployee(index);
@@ -870,14 +878,19 @@ public class Company {
             System.out.println("Insert ID: ");
             String id = read.nextLine();
             index = getIndex(id);
-            if(index != -1)
+            if(index != -1) {
+                System.out.println("----------------------------------------------");
                 System.out.println(employees.get(index));
+                System.out.println("----------------------------------------------");
+            }
             else
                 System.out.println("Employee with ID : "+ id +" not found!");
         }
         else if(choice == 2){
             for(int i=0;i < employees.size(); i++){
-                    System.out.println(employees.get(i));//TODO
+                System.out.println("----------------------------------------------");
+                System.out.println(employees.get(i));//TODO
+                System.out.println("----------------------------------------------");
             }
         }
     }
@@ -913,11 +926,11 @@ public class Company {
         System.out.println("|||||||||||||||||||System completely finished!|||||||||||||||||||||||||||");
         System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
     }
-    private static void clearScreen(){
-        for(int i=0;i<50;i++){
-            System.out.println("");
-        }
-    }
+//    private static void clearScreen(){
+//        for(int i=0;i<50;i++){
+//            System.out.println("");
+//        }
+//    }
 
     private static int getIndex(String id){
         for(int i=0; i < employees.size() ; i++){

@@ -59,7 +59,7 @@ public class Commissioned extends Salaried implements Payment{
     public String toString() {
         String[] week = new String[]{"Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays"};
         String str, union,payday;
-        str = "Commissioned employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: " + getBaseSalary() + "\nHours worked: "+ getHours() +"h\nCommission : R$" + getCommission() +"\n";
+        str = "Commissioned employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: " + getBaseSalary() + "\nDays worked: "+ getDaysWorked() +" days\nCommission : R$" + getCommission() +"\n";
         payday = "Bi-weekly paid at ";
         payday += week [ Integer.parseInt( getPayday().substring(5,6))] + "\n";
         str += payday;

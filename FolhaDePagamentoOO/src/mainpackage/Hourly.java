@@ -9,6 +9,10 @@ public class Hourly extends Employee implements Payment{
         this.hourlyRate = hourlyRate;
     }
 
+    public void setExtraHours(int extraHours) {
+        this.extraHours = extraHours;
+    }
+
     public double getHourlyRate() {
         return hourlyRate;
     }
@@ -19,7 +23,7 @@ public class Hourly extends Employee implements Payment{
         String str,union, payday;
         payday = "Payday : Weekly paid at ";
         payday += week[ Integer.parseInt( getPayday().substring(5,6) )] + "\n";
-        str = "Hourly employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nHourly Rate: R$" + getHourlyRate() +"Hours worked : "+ getHours() +"h\nExtra hours worked: "+ extraHours + "h\n";
+        str = "Hourly employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nHourly Rate: R$" + getHourlyRate() +"\nExtra hours worked: "+ getExtraHours()+ "h\nDays worked: "+ getDaysWorked()+ " days\n";
         str += payday;
         if(getPartUnion()) {
         	union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\n\n";
@@ -30,9 +34,10 @@ public class Hourly extends Employee implements Payment{
 
     }
 
+    @Override
     public void calculateHours(){
         int hours = getHoursWorked();
-        this.extraHours = hours - 8;
+        this.extraHours += hours - 8;
         super.calculateHours();
     }
 
@@ -59,6 +64,8 @@ public class Hourly extends Employee implements Payment{
                 setSalary(0);
                 setDaysWorked(0);
                 getUnion().setServiceFee(0);
+                setHours(0);
+                setExtraHours(0);
 
 
 

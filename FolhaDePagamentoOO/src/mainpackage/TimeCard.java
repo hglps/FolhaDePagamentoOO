@@ -7,9 +7,8 @@ public abstract class TimeCard {
     private int minuteOut;
     private int hoursWorked;
 
-    public abstract void calculateHours();
-
-    public abstract void addDayWorked();
+    public abstract void calculateHours();//TODO //
+    public abstract void addDayWorked();//TODO  //
 
     public int getHoursWorked(){
         return hoursWorked;
@@ -54,11 +53,10 @@ public abstract class TimeCard {
         this.minuteIn = minuteIn;
     }
 
-    public void setMinuteOut(int minuteOut) {
+    public int setMinuteOut(int minuteOut) {
         this.minuteOut = minuteOut;
         setHoursWorked(hourIn, hourOut, minuteIn, minuteOut);
-        calculateHours();
-        addDayWorked();
+        return hoursWorked;
     }
 
 }

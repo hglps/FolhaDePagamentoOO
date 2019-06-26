@@ -22,7 +22,7 @@ public class Salaried extends Employee implements Payment{
             payday += "last business day!\n";
         else
             payday += "day " + getPayday().substring(2,4) + "\n";
-        str = "Salaried employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: R$" + getBaseSalary() + "\nHours worked: "+ getHours() +"h\n";
+        str = "Salaried employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: R$" + getBaseSalary() + "\nDays worked: "+ getDaysWorked() +" days\n";
         str += payday;
         if(getPartUnion()) {
         	union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\n\n";
