@@ -12,13 +12,10 @@ public class Company {
     private static String[] schedules = new String[maxSize];
     private static int counterSchedules = 0;
 
-    public static ArrayList<Employee> getEmployees() {
-        return employees;
-    }
-
     /*
-    * ID = patternID + # + name.susbtring(0,3)
+    * ID = patternID + @ + name.substring(0,3)
     * */
+    
     public static void main(String[] args) {
         String password = "admin";
         String reading;
@@ -104,365 +101,6 @@ public class Company {
         }
 
 
-    }
-
-    private static void setNewPayday() {
-        read.nextLine();
-        String id, opt;
-        int index, optionSchedule = -1;
-        while(true){
-            System.out.println("Insert ID: (insert 'quit' to go back to main menu)");
-            id = read.nextLine();
-            index = getIndex(id);
-            if(id.equalsIgnoreCase("quit")){
-                System.out.println("Back to main menu!");
-                break;
-            }
-            else if(index == -1){
-                System.out.println("The employee with ID: "+ id + " was not found! Try again!");
-            }
-            else if(index != -1){
-                Employee currEmployee = employees.get(index);
-                for(int i=0;i< counterSchedules;i++){
-                    if(currEmployee instanceof Hourly && schedules[i].substring(0,4).equals("s 01"))
-                        System.out.println(i + " - " + schedules[i]);
-                    else if(currEmployee instanceof Commissioned && schedules[i].substring(0,4).equals("s 02"))
-                        System.out.println(i + " - " + schedules[i]);
-                    else if(currEmployee instanceof Salaried && schedules[i].substring(0,1).equals("m"))
-                        System.out.println(i + " - " + schedules[i]);
-                }
-                boolean error = true;
-                System.out.println("If you want to change your payment schedule, select one valid shown number\nElse, insert 'over' to go back to main screen");
-                opt = read.nextLine();
-                if(opt.equals("over"))
-                    System.out.println("Back to main screen.\n-----------------------------------------------------------------------");
-                else{
-                    if(opt.equals(currEmployee.getPayday().substring(0,1))) {
-                            while (error) {
-                                try {
-                                    optionSchedule = Integer.parseInt(opt);
-                                    error = false;
-                                } catch (Exception e) {
-                                    System.out.println("INVALID INPUT! Expected integer number! Try again!");
-                                    error = true;
-                                }
-                            }
-                            currEmployee.setPayday(schedules[optionSchedule]);
-                            System.out.println("New schedule registered to employee " + currEmployee.getName());
-                        }
-                    }
-                }
-
-
-            }
-
-
-    }
-
-    private static void createSchedules() {
-        String schedule = "";
-        while (true) {
-            String entry;
-            System.out.println("Insert 'over' to go back to main screen");
-            System.out.println("....Adding new payment schedules....\n");
-            while(true) {
-                System.out.print("Insert type:\nm - monthly  /  s - weekly\n->");
-                entry = read.nextLine();
-                if (entry.equalsIgnoreCase("over")) break;
-                else if(!entry.equalsIgnoreCase("m") && !entry.equalsIgnoreCase("s"))
-                    System.out.println("Invalid input! Expecting only 'm' or 's' input! Try again!");
-                else break;
-            }
-            schedule += entry;
-
-            if (schedule.equals("m")) {
-                System.out.println("Insert a number for the day of payment:\nNumber format: '01' - '25' or '00' to last business day");
-                entry = read.nextLine();
-
-                if (entry.equalsIgnoreCase("over")) break;
-                schedule += " " + entry;
-            } else if (schedule.equals("s")) {
-               while(true) {
-                   System.out.println("Insert number of worked weeks required: 01 or 02");
-                   entry = read.nextLine();
-                   if (entry.equalsIgnoreCase("over")) break;
-                   else if(!entry.equalsIgnoreCase("01") && !entry.equalsIgnoreCase("02"))
-                       System.out.println("Invalid input! Expecting only '01' or '02' inputs! Try again!");
-                   else break;
-               }
-                if (entry.equalsIgnoreCase("over")) break;
-                schedule += " " + entry;
-
-                System.out.println("Insert the day of week:\n" +
-                        "0 - Monday\n1 - Tuesday\n2 - Wednesday\n3 - Thursday\n4 - Friday\n5 - Saturday\n6 - Sunday");
-
-                entry = read.nextLine();
-                if (entry.equalsIgnoreCase("over")) break;
-                schedule += " " + entry;
-            }
-            schedules[counterSchedules] = schedule;
-            counterSchedules += 1;
-        }
-    }
-
-    private static void undoRedo() {
-        System.out.println("\nMethod not made in time!");
-        System.out.println("It'd be used 2 stacks. One for undo, the other for redo.\nCreating a new object for every employee and, then, adding to the stack, to be saved, properly!");
-        System.out.println("Just a concept!");
-        System.out.println("Back to main screen! Press enter to go back!\n");
-        read.nextLine();
-    }
-
-    private static void serviceFee() {
-        read.nextLine();
-        String id;
-        int index;
-        boolean error= true;
-        while(true){
-            System.out.println("--ServiceFee--\nInsert ID: (insert 'quit' to go back to main screen)");
-            id = read.nextLine();
-            index = getIndex(id);
-            if(id.equalsIgnoreCase("quit")) {
-                System.out.println("Back to main menu!");
-                break;
-            }
-            else if(index == -1)
-                System.out.println("The employee with ID : " + id + " was not found! Try again!");
-            else if(index != -1){
-                if(employees.get(index).getPartUnion()){
-                    double serviceFee = -1;
-                    while(error && serviceFee <= 0){
-                        System.out.print("Insert service fee: (Number format: 9999,99)\nR$");
-                        try{
-                            serviceFee = read.nextDouble();
-                            error = false;
-                        }
-                        catch(Exception e){
-                            System.out.println("Invalid input! Expected a float numeric value! Try again!");
-                            read.nextLine();
-                            error = true;
-                        }
-                        if(serviceFee <=0){
-                            System.out.println("Expected a service fee greater than zero! Try again!");
-                            error = true;
-                        }
-                        else break;
-                    }
-                    employees.get(index).getUnion().addServiceFee(serviceFee);
-                    System.out.println("R$ " + serviceFee + " of service fee successfully registered on " + employees.get(index).getName() + "'s union account!");
-                    read.nextLine();
-                }
-                else
-                    System.out.println("The selected employee is not part of any union!");
-            }
-        }
-
-
-    }
-
-    private static void setTimeCheck() {
-        String id;
-        int index;
-        boolean error;
-        while(true) {
-            read.nextLine();
-            System.out.println("Insert ID: (insert 'quit' to go back to main menu)");
-            id = read.nextLine();
-            index = getIndex(id);
-            if(id.equalsIgnoreCase("quit")) {
-                System.out.println("Back to main screen!");
-                break;
-            }
-            else if(index == -1)
-                System.out.println("Employee with ID : " + id + " not found! Press enter to insert again!");
-            else {
-                Employee currEmployee = employees.get(index);
-                int choice = 0;
-                error = true;
-                while(error) {
-                    System.out.println("Do you want to check-in or check-out?" +
-                            "\nInsert 1 to check-in" +
-                            "\nInsert 2 to check-out");
-                    try {
-                        choice = read.nextInt();
-                        error = false;
-                    }
-                    catch(Exception e){
-                        System.out.println("Invalid input! Expecting integer value! Try again!");
-                        read.nextLine();
-                        error = true;
-                    }
-                    if(choice != 1 && choice != 2){
-                        System.out.println("Expecting input '1' or '2'! Try again!");
-                        error = true;
-                    }
-                    else break;
-                }
-                if (choice == 1) {
-                    int hourIn = -1, minuteIn = -1;
-                    error = true;
-                    while ((hourIn < 0 || hourIn > 23) && error ) {
-                        System.out.println("Insert hour of entrance: (Number format : 0 to 23)");
-                        try {
-                            hourIn = read.nextInt();
-                            error = false;
-                        }
-                        catch(Exception e){
-                            System.out.println("Invalid input ! Expecting integer value! Try again!");
-                            read.nextLine();
-                            error = true;
-                        }
-                        if (hourIn < 0 || hourIn > 23) {
-                            System.out.println("\nExpecting hour between 0 and 23! Insert again!\n");
-                            error = true;
-                        }
-                        else break;
-                    }
-                    error = true;
-                    while ((minuteIn < 0 || minuteIn > 59) && error) {
-                        System.out.println("Insert minute of entrance: (Number format: 0 to 59");
-                        try {
-                            minuteIn = read.nextInt();
-                            error = false;
-                        }
-                        catch(Exception e){
-                            System.out.println("Expecting integer value! Try again!");
-                            read.nextLine();
-                            error = true;
-                        }
-                        if (minuteIn < 0 || minuteIn > 59) {
-                            System.out.println("\nInvalid input! Insert again!\n");
-                            error = true;
-                        }
-                        else break;
-                    }
-
-                    currEmployee.setHourIn(hourIn);
-                    currEmployee.setMinuteIn(minuteIn);
-                    System.out.println(currEmployee.getHourIn() +":"+ currEmployee.getMinuteIn() +" entry registered successfully to employee "+ currEmployee.getName());
-
-                }
-                else if (choice == 2) {
-                    //TODO exit
-                    int hourOut = -1, minuteOut = -1;
-                    error = true;
-                    while ((hourOut < 0 || hourOut > 23) && error) {
-                        System.out.println("Insert hour of exit: (Number format : 0 to 23)");
-                        try {
-                            hourOut = read.nextInt();
-                            error = false;
-                        }
-                        catch(Exception e){
-                            System.out.println("Expecting integer value! Try again!");
-                            read.nextLine();
-                            error = true;
-                        }
-                        if (hourOut < 0 || hourOut > 23) {
-                            System.out.println("\nInvalid input! Insert again!\n");
-                            error = true;
-                        }
-                        else break;
-                    }
-                    error = true;
-                    while ((minuteOut < 0 || minuteOut > 59) && error) {
-                        System.out.println("Insert minute of exit: (Number format: 0 to 59");
-                        try{
-                            minuteOut = read.nextInt();
-                            error = false;
-                        }
-                        catch(Exception e){
-                            System.out.println("Expecting integer value!! Try again!");
-                            read.nextLine();
-                            error = true;
-                        }
-                        if (minuteOut < 0 || minuteOut > 59) {
-                            System.out.println("\nInvalid input! Insert again!\n");
-                            error = true;
-                        }
-                        else break;
-                    }
-
-                    currEmployee.setHourOut(hourOut);
-                    currEmployee.addHours( currEmployee.setMinuteOut(minuteOut) );
-                    currEmployee.addDayWorked();// calculateHours( ) is called here!
-                    if(currEmployee instanceof Hourly)
-                        ((Hourly)currEmployee).calculateHours();
-                    else if(currEmployee instanceof Commissioned)
-                        ((Commissioned)currEmployee).calculateHours();
-                    else if(currEmployee instanceof Salaried)
-                        ((Salaried)currEmployee).calculateHours();
-                    System.out.println("hours = "+currEmployee.getHours());
-                    System.out.println(currEmployee.getHourOut() +":"+ currEmployee.getMinuteOut() +" exit registered successfully to employee "+ currEmployee.getName());
-
-                    currEmployee.setHourIn(0); currEmployee.setHourOut(0); currEmployee.setMinuteIn(0); currEmployee.setMinuteOut(0);
-                }
-                else
-                    System.out.println("Invalid input!Insert again!");
-            }
-
-        }
-    }
-
-    private static void resultSales(){
-        String id;
-        int index;
-        boolean error ;
-        double value, commissionRate;
-        while(true){
-            value = -1;
-            error = true;
-            read.nextLine();
-            System.out.println("Insert ID: (insert quit to go back to main screen)");
-            id = read.nextLine();
-            index = getIndex(id);
-            if(id.equalsIgnoreCase("quit")){
-                System.out.println("Back to main screen!");
-                break;
-            }
-            else if(index == -1)
-                System.out.println("Employee with ID: " +  id + " not found! Press enter to try again!");
-            else{
-                Employee currEmployee = employees.get(index);
-                if(currEmployee instanceof Commissioned){
-                        while (value < 0 && error) {
-                            System.out.print("Insert value of sale: (Number format : 9999,99)\nR$ ");
-                            try {
-                                value = read.nextDouble();
-                                error = false;
-                            }
-                            catch(Exception e){
-                                System.out.println("Invalid Input! Insert valid numeric input! Try again!");
-                                read.nextLine();
-                                error = true;
-                            }
-                            if (value > 0) {
-                                error = false;
-                                break;
-                            }
-                            else if(value <= 0) {
-                                error = true;
-                                System.out.println("Invalid double input! Enter values greater than zero!");
-                            }
-                        }
-                        commissionRate = ((Commissioned) currEmployee).getCommissionRate();
-                        ((Commissioned) currEmployee).addCommission(value * commissionRate);
-                        System.out.println("Sale registered successfully to employee" + currEmployee.getName());
-                }
-            }
-        }
-    }
-
-    private static void payroll() {
-
-        for(int i =0 ; i < employees.size(); i++){
-    	    if(employees.get(i) instanceof Hourly)
-    	        ((Hourly) employees.get(i)).calculateSalary(date.getDayWeek(), date.getCounterDate(), date.getLastWorkDay());
-    	    else if(employees.get(i) instanceof  Commissioned)
-    	        ((Commissioned) employees.get(i)).calculateSalary(date.getDayWeek(), date.getCounterDate(), date.getLastWorkDay());
-    	    else if(employees.get(i) instanceof  Salaried)
-    	        ((Salaried) employees.get(i)).calculateSalary(date.getDayWeek(), date.getCounterDate(), date.getLastWorkDay());
-        }
-        date.setNewDate();
     }
 
     private static void setUnionCondition(double unionFee, boolean unionMember, int index) {
@@ -640,6 +278,245 @@ public class Company {
         }
         else
             System.out.println("Employee with ID : "+ id +" not found!");
+    }
+
+    private static void setTimeCheck() {
+        String id;
+        int index;
+        boolean error;
+        while(true) {
+            read.nextLine();
+            System.out.println("Insert ID: (insert 'quit' to go back to main menu)");
+            id = read.nextLine();
+            index = getIndex(id);
+            if(id.equalsIgnoreCase("quit")) {
+                System.out.println("Back to main screen!");
+                break;
+            }
+            else if(index == -1)
+                System.out.println("Employee with ID : " + id + " not found! Press enter to insert again!");
+            else {
+                Employee currEmployee = employees.get(index);
+                int choice = 0;
+                error = true;
+                while(error) {
+                    System.out.println("Do you want to check-in or check-out?" +
+                            "\nInsert 1 to check-in" +
+                            "\nInsert 2 to check-out");
+                    try {
+                        choice = read.nextInt();
+                        error = false;
+                    }
+                    catch(Exception e){
+                        System.out.println("Invalid input! Expecting integer value! Try again!");
+                        read.nextLine();
+                        error = true;
+                    }
+                    if(choice != 1 && choice != 2){
+                        System.out.println("Expecting input '1' or '2'! Try again!");
+                        error = true;
+                    }
+                    else break;
+                }
+                if (choice == 1) {
+                    int hourIn = -1, minuteIn = -1;
+                    error = true;
+                    while ((hourIn < 0 || hourIn > 23) && error ) {
+                        System.out.println("Insert hour of entrance: (Number format : 0 to 23)");
+                        try {
+                            hourIn = read.nextInt();
+                            error = false;
+                        }
+                        catch(Exception e){
+                            System.out.println("Invalid input ! Expecting integer value! Try again!");
+                            read.nextLine();
+                            error = true;
+                        }
+                        if (hourIn < 0 || hourIn > 23) {
+                            System.out.println("\nExpecting hour between 0 and 23! Insert again!\n");
+                            error = true;
+                        }
+                        else break;
+                    }
+                    error = true;
+                    while ((minuteIn < 0 || minuteIn > 59) && error) {
+                        System.out.println("Insert minute of entrance: (Number format: 0 to 59");
+                        try {
+                            minuteIn = read.nextInt();
+                            error = false;
+                        }
+                        catch(Exception e){
+                            System.out.println("Expecting integer value! Try again!");
+                            read.nextLine();
+                            error = true;
+                        }
+                        if (minuteIn < 0 || minuteIn > 59) {
+                            System.out.println("\nInvalid input! Insert again!\n");
+                            error = true;
+                        }
+                        else break;
+                    }
+
+                    currEmployee.setHourIn(hourIn);
+                    currEmployee.setMinuteIn(minuteIn);
+                    System.out.println(currEmployee.getHourIn() +":"+ currEmployee.getMinuteIn() +" entry registered successfully to employee "+ currEmployee.getName());
+
+                }
+                else if (choice == 2) {
+                    //TODO exit
+                    int hourOut = -1, minuteOut = -1;
+                    error = true;
+                    while ((hourOut < 0 || hourOut > 23) && error) {
+                        System.out.println("Insert hour of exit: (Number format : 0 to 23)");
+                        try {
+                            hourOut = read.nextInt();
+                            error = false;
+                        }
+                        catch(Exception e){
+                            System.out.println("Expecting integer value! Try again!");
+                            read.nextLine();
+                            error = true;
+                        }
+                        if (hourOut < 0 || hourOut > 23) {
+                            System.out.println("\nInvalid input! Insert again!\n");
+                            error = true;
+                        }
+                        else break;
+                    }
+                    error = true;
+                    while ((minuteOut < 0 || minuteOut > 59) && error) {
+                        System.out.println("Insert minute of exit: (Number format: 0 to 59");
+                        try{
+                            minuteOut = read.nextInt();
+                            error = false;
+                        }
+                        catch(Exception e){
+                            System.out.println("Expecting integer value!! Try again!");
+                            read.nextLine();
+                            error = true;
+                        }
+                        if (minuteOut < 0 || minuteOut > 59) {
+                            System.out.println("\nInvalid input! Insert again!\n");
+                            error = true;
+                        }
+                        else break;
+                    }
+
+                    currEmployee.setHourOut(hourOut);
+                    currEmployee.addHours( currEmployee.setMinuteOut(minuteOut) );
+                    currEmployee.addDayWorked();// calculateHours( ) is called here!
+                    if(currEmployee instanceof Hourly)
+                        ((Hourly)currEmployee).calculateHours();
+                    else if(currEmployee instanceof Commissioned)
+                        ((Commissioned)currEmployee).calculateHours();
+                    else if(currEmployee instanceof Salaried)
+                        ((Salaried)currEmployee).calculateHours();
+                    System.out.println("hours = "+currEmployee.getHours());
+                    System.out.println(currEmployee.getHourOut() +":"+ currEmployee.getMinuteOut() +" exit registered successfully to employee "+ currEmployee.getName());
+
+                    currEmployee.setHourIn(0); currEmployee.setHourOut(0); currEmployee.setMinuteIn(0); currEmployee.setMinuteOut(0);
+                }
+                else
+                    System.out.println("Invalid input!Insert again!");
+            }
+
+        }
+    }
+
+    private static void resultSales(){
+        String id;
+        int index;
+        boolean error ;
+        double value, commissionRate;
+        while(true){
+            value = -1;
+            error = true;
+            read.nextLine();
+            System.out.println("Insert ID: (insert quit to go back to main screen)");
+            id = read.nextLine();
+            index = getIndex(id);
+            if(id.equalsIgnoreCase("quit")){
+                System.out.println("Back to main screen!");
+                break;
+            }
+            else if(index == -1)
+                System.out.println("Employee with ID: " +  id + " not found! Press enter to try again!");
+            else{
+                Employee currEmployee = employees.get(index);
+                if(currEmployee instanceof Commissioned){
+                    while (value < 0 && error) {
+                        System.out.print("Insert value of sale: (Number format : 9999,99)\nR$ ");
+                        try {
+                            value = read.nextDouble();
+                            error = false;
+                        }
+                        catch(Exception e){
+                            System.out.println("Invalid Input! Insert valid numeric input! Try again!");
+                            read.nextLine();
+                            error = true;
+                        }
+                        if (value > 0) {
+                            error = false;
+                            break;
+                        }
+                        else if(value <= 0) {
+                            error = true;
+                            System.out.println("Invalid double input! Enter values greater than zero!");
+                        }
+                    }
+                    commissionRate = ((Commissioned) currEmployee).getCommissionRate();
+                    ((Commissioned) currEmployee).addCommission(value * commissionRate);
+                    System.out.println("Sale registered successfully to employee" + currEmployee.getName());
+                }
+            }
+        }
+    }
+
+    private static void serviceFee() {
+        read.nextLine();
+        String id;
+        int index;
+        boolean error= true;
+        while(true){
+            System.out.println("--ServiceFee--\nInsert ID: (insert 'quit' to go back to main screen)");
+            id = read.nextLine();
+            index = getIndex(id);
+            if(id.equalsIgnoreCase("quit")) {
+                System.out.println("Back to main menu!");
+                break;
+            }
+            else if(index == -1)
+                System.out.println("The employee with ID : " + id + " was not found! Try again!");
+            else if(index != -1){
+                if(employees.get(index).getPartUnion()){
+                    double serviceFee = -1;
+                    while(error && serviceFee <= 0){
+                        System.out.print("Insert service fee: (Number format: 9999,99)\nR$");
+                        try{
+                            serviceFee = read.nextDouble();
+                            error = false;
+                        }
+                        catch(Exception e){
+                            System.out.println("Invalid input! Expected a float numeric value! Try again!");
+                            read.nextLine();
+                            error = true;
+                        }
+                        if(serviceFee <=0){
+                            System.out.println("Expected a service fee greater than zero! Try again!");
+                            error = true;
+                        }
+                        else break;
+                    }
+                    employees.get(index).getUnion().addServiceFee(serviceFee);
+                    System.out.println("R$ " + serviceFee + " of service fee successfully registered on " + employees.get(index).getName() + "'s union account!");
+                    read.nextLine();
+                }
+                else
+                    System.out.println("The selected employee is not part of any union!");
+            }
+        }
+
+
     }
 
     private static void changeRegister(){
@@ -869,6 +746,118 @@ public class Company {
             System.out.print("\nInsert new union fee:\nNumber format: 9999,99\nUnion fee: ");
     }
 
+    private static void payroll() {
+
+        for(int i =0 ; i < employees.size(); i++){
+            if(employees.get(i) instanceof Hourly)
+                ((Hourly) employees.get(i)).calculateSalary(date.getDayWeek(), date.getCounterDate(), date.getLastWorkDay());
+            else if(employees.get(i) instanceof  Commissioned)
+                ((Commissioned) employees.get(i)).calculateSalary(date.getDayWeek(), date.getCounterDate(), date.getLastWorkDay());
+            else if(employees.get(i) instanceof  Salaried)
+                ((Salaried) employees.get(i)).calculateSalary(date.getDayWeek(), date.getCounterDate(), date.getLastWorkDay());
+        }
+        date.setNewDate();
+    }
+
+    private static void setNewPayday() {
+        read.nextLine();
+        String id, opt;
+        int index, optionSchedule = -1;
+        while(true){
+            System.out.println("Insert ID: (insert 'quit' to go back to main menu)");
+            id = read.nextLine();
+            index = getIndex(id);
+            if(id.equalsIgnoreCase("quit")){
+                System.out.println("Back to main menu!");
+                break;
+            }
+            else if(index == -1){
+                System.out.println("The employee with ID: "+ id + " was not found! Try again!");
+            }
+            else if(index != -1){
+                Employee currEmployee = employees.get(index);
+                for(int i=0;i< counterSchedules;i++){
+                    if(currEmployee instanceof Hourly && schedules[i].substring(0,4).equals("s 01"))
+                        System.out.println(i + " - " + schedules[i]);
+                    else if(currEmployee instanceof Commissioned && schedules[i].substring(0,4).equals("s 02"))
+                        System.out.println(i + " - " + schedules[i]);
+                    else if(currEmployee instanceof Salaried && schedules[i].substring(0,1).equals("m"))
+                        System.out.println(i + " - " + schedules[i]);
+                }
+                boolean error = true;
+                System.out.println("If you want to change your payment schedule, select one valid shown number\nElse, insert 'over' to go back to main screen");
+                opt = read.nextLine();
+                if(opt.equals("over"))
+                    System.out.println("Back to main screen.\n-----------------------------------------------------------------------");
+                else{
+                    if(opt.equals(currEmployee.getPayday().substring(0,1))) {
+                        while (error) {
+                            try {
+                                optionSchedule = Integer.parseInt(opt);
+                                error = false;
+                            } catch (Exception e) {
+                                System.out.println("INVALID INPUT! Expected integer number! Try again!");
+                                error = true;
+                            }
+                        }
+                        currEmployee.setPayday(schedules[optionSchedule]);
+                        System.out.println("New schedule registered to employee " + currEmployee.getName());
+                    }
+                }
+            }
+
+
+        }
+
+
+    }
+
+    private static void createSchedules() {
+        String schedule = "";
+        while (true) {
+            String entry;
+            System.out.println("Insert 'over' to go back to main screen");
+            System.out.println("....Adding new payment schedules....\n");
+            while(true) {
+                System.out.print("Insert type:\nm - monthly  /  s - weekly\n->");
+                entry = read.nextLine();
+                if (entry.equalsIgnoreCase("over")) break;
+                else if(!entry.equalsIgnoreCase("m") && !entry.equalsIgnoreCase("s"))
+                    System.out.println("Invalid input! Expecting only 'm' or 's' input! Try again!");
+                else break;
+            }
+            schedule += entry;
+
+            if (schedule.equals("m")) {
+                System.out.println("Insert a number for the day of payment:\nNumber format: '01' - '25' or '00' to last business day");
+                entry = read.nextLine();
+
+                if (entry.equalsIgnoreCase("over")) break;
+                schedule += " " + entry;
+            } else if (schedule.equals("s")) {
+                while(true) {
+                    System.out.println("Insert number of worked weeks required: 01 or 02");
+                    entry = read.nextLine();
+                    if (entry.equalsIgnoreCase("over")) break;
+                    else if(!entry.equalsIgnoreCase("01") && !entry.equalsIgnoreCase("02"))
+                        System.out.println("Invalid input! Expecting only '01' or '02' inputs! Try again!");
+                    else break;
+                }
+                if (entry.equalsIgnoreCase("over")) break;
+                schedule += " " + entry;
+
+                System.out.println("Insert the day of week:\n" +
+                        "0 - Monday\n1 - Tuesday\n2 - Wednesday\n3 - Thursday\n4 - Friday\n5 - Saturday\n6 - Sunday");
+
+                entry = read.nextLine();
+                if (entry.equalsIgnoreCase("over")) break;
+                schedule += " " + entry;
+            }
+            schedules[counterSchedules] = schedule;
+            counterSchedules += 1;
+        }
+    }
+
     private static void showInfo(){
         System.out.println("Show info of 1 employee or all employees?\n 1 - 1 employee\n 2 - All employees");
         int index, choice = read.nextInt();
@@ -895,6 +884,13 @@ public class Company {
         }
     }
 
+    private static void undoRedo() {
+        System.out.println("\nMethod not made in time!");
+        System.out.println("It'd be used 2 stacks. One for undo, the other for redo.\nCreating a new object for every employee and, then, adding to the stack, to be saved, properly!");
+        System.out.println("Just a concept!");
+        System.out.println("Back to main screen! Press enter to go back!\n");
+        read.nextLine();
+    }
 
     private static void screenEnterPassword(){
         System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
@@ -926,11 +922,6 @@ public class Company {
         System.out.println("|||||||||||||||||||System completely finished!|||||||||||||||||||||||||||");
         System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
     }
-//    private static void clearScreen(){
-//        for(int i=0;i<50;i++){
-//            System.out.println("");
-//        }
-//    }
 
     private static int getIndex(String id){
         for(int i=0; i < employees.size() ; i++){
@@ -947,4 +938,14 @@ public class Company {
         else
             return (patternId + index) + "@" + employees.get(index).getName().substring(0,3);
     }
+    
+    public static ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    //    private static void clearScreen(){
+//        for(int i=0;i<50;i++){
+//            System.out.println("");
+//        }
+//    }
 }
