@@ -4,7 +4,7 @@ import payment.TimeCard;
 import union.UnionContract;
 
 public class Employee extends TimeCard {
-    //TODO
+
 	private String name;
     private String address;
     private String typePayment;
@@ -12,10 +12,19 @@ public class Employee extends TimeCard {
     private String id;
     private String payday;
     private int hours;
+    private double salary;
     private UnionContract union = new UnionContract();
     private boolean partUnion;
     private int daysWorked = 0;
     private int weeksWorked;
+
+    public Employee(String name, String address, String typePayment, String wayPayment){
+        this.name = name;
+        this.address = address;
+        this.typePayment = typePayment; // setar o payday a partir daqui :)
+        this.wayPayment= wayPayment;
+    }
+
 
     public void setHours(int hours) {
         this.hours = hours;
@@ -23,8 +32,6 @@ public class Employee extends TimeCard {
     public void addHours(int hours){
         this.hours += hours;
     }
-
-    private double salary;
 
     public double getSalary() {
         return salary;
@@ -48,14 +55,6 @@ public class Employee extends TimeCard {
 
     public void setDaysWorked(int daysWorked) {
         this.daysWorked = daysWorked;
-    }
-//TODO
-
-    public Employee(String name, String address, String typePayment, String wayPayment){
-        this.name = name;
-        this.address = address;
-        this.typePayment = typePayment; // setar o payday a partir daqui :)
-        this.wayPayment= wayPayment;
     }
 
     public void enterUnion(double unionFee, String name, int patternId){
@@ -124,7 +123,6 @@ public class Employee extends TimeCard {
         this.payday = payday;
     }
 
-
     public void setPartUnion(boolean partUnion) {
         this.partUnion = partUnion;
     }
@@ -132,8 +130,6 @@ public class Employee extends TimeCard {
     public void setId(String id) {
         this.id = id;
     }
-
-
 
     public void startPayday() {
         if(getTypePayment().equals("c"))
@@ -161,6 +157,7 @@ public class Employee extends TimeCard {
         this.daysWorked += 1;
         if(this.daysWorked >= 7)
             this.weeksWorked +=1;
+
     }
 
 }

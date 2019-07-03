@@ -7,19 +7,23 @@ public abstract class TimeCard {
     private int minuteOut;
     private int hoursWorked;
 
-    public abstract void calculateHours();//TODO //
-    public abstract void addDayWorked();//TODO  //
+    public abstract void calculateHours();
+    public abstract void addDayWorked();
 
     public int getHoursWorked(){
         return hoursWorked;
     }
 
+    public void setHoursWorked(int hours){
+        this.hoursWorked = hours;
+    }
+
     private void setHoursWorked(int hourIn, int hourOut, int minuteIn, int minuteOut){
 
         if(hourOut < hourIn)
-            this.hoursWorked = (24 - hourIn) + hourOut;
+            this.hoursWorked += (24 - hourIn) + hourOut;
         else
-            this.hoursWorked = hourOut - hourIn;
+            this.hoursWorked += hourOut - hourIn;
 
         if(minuteOut < minuteIn)
             this.hoursWorked -=1;
@@ -55,7 +59,8 @@ public abstract class TimeCard {
 
     public int setMinuteOut(int minuteOut) {
         this.minuteOut = minuteOut;
-        setHoursWorked(hourIn, hourOut, minuteIn, minuteOut);
+        if(minuteOut > 0)
+            setHoursWorked(hourIn, hourOut, minuteIn, minuteOut);
         return hoursWorked;
     }
 

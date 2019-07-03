@@ -11,6 +11,9 @@ public class Salaried extends Employee implements Payment {
         this.baseSalary = baseSalary;
     }
 
+    public void setBaseSalary(double baseSalary) {
+        this.baseSalary = baseSalary;
+    }
 
     public double getBaseSalary() {
         return baseSalary;
@@ -27,7 +30,7 @@ public class Salaried extends Employee implements Payment {
         str = "Salaried employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: R$" + getBaseSalary() + "\nDays worked: "+ getDaysWorked() +" days\n";
         str += payday;
         if(getPartUnion()) {
-        	union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\n\n";
+            union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\nUnion ID: " + getUnion().getUnionId()+ "\n\n";
         }
         else
         	union = "--Not union member--\n\n";
@@ -67,6 +70,7 @@ public class Salaried extends Employee implements Payment {
                 setSalary(0);
                 getUnion().setServiceFee(0);
                 setDaysWorked(0);
+                setHoursWorked(0);
             }
         }
     }

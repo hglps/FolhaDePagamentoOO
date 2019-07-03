@@ -25,10 +25,10 @@ public class Hourly extends Employee implements Payment {
         String str,union, payday;
         payday = "Payday : Weekly paid at ";
         payday += week[ Integer.parseInt( getPayday().substring(5,6) )] + "\n";
-        str = "Hourly employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nHourly Rate: R$" + getHourlyRate() +"\nExtra hours worked: "+ getExtraHours()+ "h\nDays worked: "+ getDaysWorked()+ " days\n";
+        str = "Hourly employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nHourly Rate: R$" + getHourlyRate() +"\nHours worked(so far): "+ getHours() +"h"+"\nExtra hours worked: "+ getExtraHours()+ "h\nDays worked: "+ getDaysWorked()+ " days\n";
         str += payday;
         if(getPartUnion()) {
-        	union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\n\n";
+        	union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\nUnion ID: " + getUnion().getUnionId()+ "\n\n";
         }
         else
         	union = "--Not union member--\n\n";
@@ -51,23 +51,24 @@ public class Hourly extends Employee implements Payment {
         if(isPayday(dayOfWeek)){
             if(getDaysWorked() >= 5){
                 setWeeksWorked(0);
-              double money=0;
-                money = getHours()* getHourlyRate() + 1.5*getExtraHours()*getHourlyRate();
+              double salary=0;
+                salary = getHours()* getHourlyRate() + 1.5*getExtraHours()*getHourlyRate();
                 if(getPartUnion()){
-                    money -= getUnion().getServiceFee();
+                    salary -= getUnion().getServiceFee();
                     if(!getUnion().getPaidUnionFee()){
-                        money -= getUnion().getUnionFee();
+                        salary -= getUnion().getUnionFee();
                         getUnion().setPaidUnionFee(true);
                     }
                 }
 
-                setSalary(money);
-                System.out.println("Hourly employee "+ getName()+ " - Salary: R$" + money);
+                setSalary(salary);
+                System.out.println("Hourly employee "+ getName()+ " - Salary: R$" + salary);
                 setSalary(0);
                 setDaysWorked(0);
                 getUnion().setServiceFee(0);
                 setHours(0);
                 setExtraHours(0);
+                setHoursWorked(0);
 
 
 
@@ -75,7 +76,6 @@ public class Hourly extends Employee implements Payment {
 
         }
     }
-
 
     private boolean isPayday(int dayOfWeek){
         return getPayday().substring(5,6).equalsIgnoreCase(Integer.toString(dayOfWeek));

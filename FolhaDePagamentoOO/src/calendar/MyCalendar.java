@@ -1,13 +1,11 @@
 package calendar;
 
-import companypackage.Company;
-
-public class MyCalendar extends Company { //TODO talvez de errado esse extends...
+public class MyCalendar {
     private int year = 2019;
     private int[] day = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private int counterDate = 24;
+    private int counterDate = 1;
     private String[] month = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-    private int counterMonth = 5;
+    private int counterMonth = 6;
     private String[] week = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private int dayWeek = 0; // 0 - monday, 1- tuesday...
     private int lastWorkDay = 0; // last buss. day
@@ -17,23 +15,24 @@ public class MyCalendar extends Company { //TODO talvez de errado esse extends..
         System.out.println(month[counterMonth] + ", " + counterDate + " " + year);
     }
 
-    public void setNewDate() {
+    public boolean setNewDate() {
     counterDate+=1;
         if (counterDate > day[counterMonth]) {
             counterDate = 1;
             if (counterMonth + 1 > 12) {
                 year += 1;
-                if(isLeapYear(year)) day[1] = 29;
-                else day[1] = 28;
+                if(isLeapYear(year))
+                    day[1] = 29;
+                else
+                    day[1] = 28;
             }
             counterMonth = (counterMonth + 1) % 12;
-            for(int i = 0; i< getEmployees().size();i++ ){
-                getEmployees().get(i).getUnion().setPaidUnionFee(false);
-            }
-            // TODO fix commissioned and hourly employees paying twice the union payment
             setLastWorkDay();
+            return true;
+            // TODO fix commissioned and hourly employees paying twice the union payment
         }
         dayWeek = (dayWeek + 1) % 7;
+        return false;
     }
 
     private void setLastWorkDay() {
@@ -77,6 +76,7 @@ public class MyCalendar extends Company { //TODO talvez de errado esse extends..
     public String getMonth(){
         return month[counterMonth];
     }
+
 }
 
 

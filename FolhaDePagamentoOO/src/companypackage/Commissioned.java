@@ -1,5 +1,4 @@
 package companypackage;
-//TODO missing result sale method or in another class
 
 import payment.Payment;
 
@@ -25,6 +24,10 @@ public class Commissioned extends Salaried implements Payment {
 
     public double getCommission() {
         return commission;
+    }
+
+    public void setCommissionRate(double commissionRate) {
+        this.commissionRate = commissionRate;
     }
 
     @Override
@@ -53,6 +56,7 @@ public class Commissioned extends Salaried implements Payment {
                 setCommission(0);
                 getUnion().setServiceFee(0);
                 setDaysWorked(0);
+                setHoursWorked(0);
             }
         }
     }
@@ -61,12 +65,12 @@ public class Commissioned extends Salaried implements Payment {
     public String toString() {
         String[] week = new String[]{"Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays"};
         String str, union,payday;
-        str = "Commissioned employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: " + getBaseSalary() + "\nDays worked: "+ getDaysWorked() +" days\nCommission : R$" + getCommission() +"\n";
+        str = "Commissioned employee\nName: " + getName() + "\nAddress: " + getAddress() + "\nWay of payment: " + getWayPayment()+ "\nID: " + getId()+ "\nPayday: " + getPayday() + "\nBase Salary: " + getBaseSalary() + "\nCommission Rate: " + getCommissionRate()*100 + "%" +"\nDays worked: "+ getDaysWorked() +" days\nCommission : R$" + getCommission() +"\n";
         payday = "Bi-weekly paid at ";
         payday += week [ Integer.parseInt( getPayday().substring(5,6))] + "\n";
         str += payday;
         if(getPartUnion()) {
-        	union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\n\n";
+            union = "--Union Member--" + "\nUnion Fee: R$" + getUnion().getUnionFee() + " , Service Fee(until now): R$" + getUnion().getServiceFee() + "\nUnion ID: " + getUnion().getUnionId()+ "\n\n";
         }
         else
         	union = "--Not union member--\n\n";
