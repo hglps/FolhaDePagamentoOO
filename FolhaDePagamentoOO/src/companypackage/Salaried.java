@@ -53,7 +53,7 @@ public class Salaried extends Employee implements Payment {
     @Override
     public void calculateSalary(int dayOfWeek, int day, int lastBuss) {
         if(getPayday().substring(2,4).equalsIgnoreCase("00")){
-            if(day == lastBuss && (getDaysWorked() >= 20)){
+            if((day == lastBuss && (getDaysWorked() >= 20))|| getDaysWorked() >= 20){
                 setWeeksWorked(0);
 
                 double salary=0;

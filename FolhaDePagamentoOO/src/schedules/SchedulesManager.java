@@ -15,7 +15,7 @@ public class SchedulesManager {
         String entry;
         while(true){
             entry = read.nextLine();
-            if (entry.equalsIgnoreCase("over")) break;
+            if (entry.equalsIgnoreCase("quit")) break;
             else if(!entry.equalsIgnoreCase("m") && !entry.equalsIgnoreCase("s"))
                 System.out.println("\nInvalid input! Expecting only 'm' or 's' input! Try again!");
             else break;
@@ -47,7 +47,7 @@ public class SchedulesManager {
         String entry;
         while(true){
             entry = read.nextLine();
-            if (entry.equalsIgnoreCase("over")) break;
+            if (entry.equalsIgnoreCase("quit")) break;
             else if(!entry.equalsIgnoreCase("01") && !entry.equalsIgnoreCase("02"))
                 System.out.print("\nInvalid input! Expecting only '01' or '02' weeks! Try again!\nEntry: ");
             else break;
@@ -77,10 +77,14 @@ public class SchedulesManager {
     }
 
     public void createSchedules() {
+        read.nextLine();
         String schedule = "";
+        String entry = "";
         while (true) {
-            String entry;
-            System.out.println("Insert 'over' to go back to main screen");
+            schedule = "";
+            entry="";
+
+            System.out.println("Insert 'quit' to go back to main screen");
             System.out.println("....Adding new payment schedules....\n");
             System.out.print("Insert type:\nm - monthly  /  s - weekly\n->");
             entry = returnValidType();
@@ -88,21 +92,24 @@ public class SchedulesManager {
                 break;
 
             schedule += entry;
+            entry="";
 
             if (schedule.equals("m")) {
                 System.out.print("Insert a number for the day of payment:\nNumber format: '01' - '25' or '00' to last business day\nEntry: ");
                 entry = returnValidDateSalaried();
 
-                if (entry.equalsIgnoreCase("over")) break;
+                if (entry.equalsIgnoreCase("quit")) break;
                 schedule += " " + entry;
+                entry="";
             }
 
             else if (schedule.equals("s")) {
                 System.out.println("Insert number of worked weeks required: 01 or 02");
                 entry = returnValidWeeks();
 
-                if (entry.equalsIgnoreCase("over")) break;
+                if (entry.equalsIgnoreCase("quit")) break;
                 schedule += " " + entry;
+                entry="";
 
                 System.out.println("Insert the day of week:\n" +
                         "0 - Monday\n" +
@@ -113,8 +120,9 @@ public class SchedulesManager {
                         "5 - Saturday\n" +
                         "6 - Sunday");
                 entry = returnValidDayWeek();
-                if (entry.equalsIgnoreCase("over")) break;
+                if (entry.equalsIgnoreCase("quit")) break;
                 schedule += " " + entry;
+                entry="";
             }
             Schedules scheduleFinal = new Schedules(schedule);
 

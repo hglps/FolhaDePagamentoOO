@@ -12,6 +12,7 @@ public class HeadSetup {
 
     public void startSystem(){
         System.out.println("Started system!");
+        date.setLastWorkDay();
         enterSystem();
     }
 
@@ -87,10 +88,10 @@ public class HeadSetup {
                 company.changeRegister();
             }
             else if(choice == 7) {
-                runPayroll();
+                company.undoRedo();
             }
             else if(choice == 8){
-                company.undoRedo();
+                runPayroll();
             }
             else if(choice == 9){
                 company.setNewPayday();
@@ -150,8 +151,8 @@ public class HeadSetup {
         System.out.println("Insert 4 to UPDATE THE RESULT OF SALES of an employee;");
         System.out.println("Insert 5 to UPDATE SERVICE FEE of an employee;");
         System.out.println("Insert 6 to CHANGE REGISTER of an employee;");
-        System.out.println("Insert 7 to RUN TODAY'S PAYROLL;");
-        System.out.println("Insert 8 to UNDO OR REDO;");
+        System.out.println("Insert 7 to UNDO or REDO!");
+        System.out.println("Insert 8 to RUN TODAY'S PAYROLL;");
         System.out.println("Insert 9 to SET PAYMENT SCHEDULE of an employee;");
         System.out.println("Insert 10 to CREATE NEW PAYMENT SCHEDULES;");
         System.out.println("Insert 11 to LIST EMPLOYEE(S) INFO;");

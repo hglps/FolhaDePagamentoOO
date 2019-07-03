@@ -29,13 +29,14 @@ public class MyCalendar {
             counterMonth = (counterMonth + 1) % 12;
             setLastWorkDay();
             return true;
-            // TODO fix commissioned and hourly employees paying twice the union payment
         }
         dayWeek = (dayWeek + 1) % 7;
         return false;
     }
 
-    private void setLastWorkDay() {
+
+
+    public void setLastWorkDay() {
         int lastDay = day[counterMonth];
         String dayOfLast = week[(dayWeek + lastDay) % 7];
 

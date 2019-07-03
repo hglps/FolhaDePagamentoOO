@@ -10,7 +10,6 @@ public class Company {
     private Scanner read = new Scanner(System.in);
     private final int patternId = 19002100;
     private final int maxSize = 500;
-    private int counterState = 0;
 
     private ArrayList<Employee> employees = new ArrayList<Employee>(maxSize);
     private SchedulesManager schedulesManager = new SchedulesManager();
@@ -18,9 +17,9 @@ public class Company {
     private Stack<ArrayList<Employee>> redo = new Stack<ArrayList<Employee>>();
 
 
-    /*
-     * ID = patternID + @ + name.substring(0,3)
-     * */
+//    /*
+//     * ID = patternID + @ + name.substring(0,3)
+//     * */
 
     private int getIndex(String id){
         for(int i=0; i < employees.size() ; i++){
@@ -208,7 +207,7 @@ public class Company {
     }
 
     public void addEmployee() {
-//        read.nextLine();
+        read.nextLine();
         String name, address, typePayment , wayPayment;
         boolean unionMember;
         double baseSalary= -1, hourlyRate= -1, unionFee = -1, commissionRate= -1;
@@ -339,7 +338,7 @@ public class Company {
                     saveState();
                 }
                 else if (choice == 2) {
-                    //TODO exit
+
                     int hourOut, minuteOut;
                     System.out.println("Insert hour of exit: (Number format : 0 to 23)");
                     hourOut = returnValidHour();
@@ -657,82 +656,21 @@ public class Company {
         else if(choice == 2){
             for(int i=0;i < employees.size(); i++){
                 System.out.println("----------------------------------------------");
-                System.out.println(employees.get(i));//TODO
+                System.out.println(employees.get(i));
                 System.out.println("----------------------------------------------");
             }
         }
     }
 
-    public void showStates(){
-        for(int i=0;i< undo.size();i++){
-            System.out.println(undo.pop());
-        }
-    }
 
     private void saveState(){
-        this.counterState+=1;
-//        if(counterState > 1){
             ArrayList<Employee> newEmployees = new ArrayList<Employee>();
             newEmployees = copyEmployee(employees);
             undo.push(newEmployees);
-//        }
     }
-
     public void startUndoRedo(){
         ArrayList<Employee> startArrayList = new ArrayList<Employee>();
         undo.push(startArrayList);
-    }
-    public void undoRedo() {
-        read.nextLine();
-        System.out.print("Insert:\n" +
-                "1 - UNDO\n" +
-                "2 - REDO\n" +
-                "Choice: ");
-        int choice = returnValidShowInfo();
-        if(choice == 1){
-            undo();
-        }
-        else if(choice == 2){
-            redo();
-        }
-
-    }
-    private void undo(){
-
-        if(undo.peek().equals(undo.get(0))){
-            ArrayList<Employee> newEmployees = new ArrayList<Employee>();
-            employees = newEmployees;
-        }
-
-        else{
-                redo.push(undo.pop());
-                ArrayList<Employee> newEmployees = new ArrayList<Employee>();
-                newEmployees = copyEmployee(undo.peek());
-                employees = newEmployees;
-
-                System.out.println("UNDO made successfully!\n");
-
-            this.counterState-=1;
-        }
-
-    }
-    private void redo(){
-        if(redo.isEmpty()){
-            System.out.println("CANNOT REDO! Empty redo stack!\n");
-        }
-        else{
-            ArrayList<Employee> newEmployees = new ArrayList<Employee>();
-            newEmployees = copyEmployee(redo.peek());
-            undo.push(newEmployees);
-
-            ArrayList<Employee> redoFinal = new ArrayList<Employee>();
-            redoFinal = copyEmployee(redo.pop());
-            employees = redoFinal;
-
-            System.out.println("REDO made successfully!\n");
-
-            this.counterState+=1;
-        }
     }
     private ArrayList<Employee> copyEmployee(ArrayList<Employee> employees){
 
@@ -773,5 +711,61 @@ public class Company {
 
         return newEmployees;
     }
+    public void undoRedo() {
+        read.nextLine();
+        System.out.print("Insert:\n" +
+                "1 - UNDO\n" +
+                "2 - REDO\n" +
+                "Choice: ");
+        int choice = returnValidShowInfo();
+        if(choice == 1){
+            undo();
+        }
+        else if(choice == 2){
+            redo();
+        }
+
+    }
+    private void undo(){
+
+        if(undo.peek().equals(undo.get(0))){
+            ArrayList<Employee> newEmployees = new ArrayList<Employee>();
+            employees = newEmployees;
+        }
+
+        else{
+                redo.push(undo.pop());
+                ArrayList<Employee> newEmployees = new ArrayList<Employee>();
+                newEmployees = copyEmployee(undo.peek());
+                employees = newEmployees;
+
+                System.out.println("UNDO made successfully!\n");
+
+        }
+
+    }
+    private void redo(){
+        if(redo.isEmpty()){
+            System.out.println("CANNOT REDO! Empty redo stack!\n");
+        }
+        else{
+            ArrayList<Employee> newEmployees = new ArrayList<Employee>();
+            newEmployees = copyEmployee(redo.peek());
+            undo.push(newEmployees);
+
+            ArrayList<Employee> redoFinal = new ArrayList<Employee>();
+            redoFinal = copyEmployee(redo.pop());
+            employees = redoFinal;
+
+            System.out.println("REDO made successfully!\n");
+        }
+    }
+
+
+    public void showStates(){
+        for(int i=0;i< undo.size();i++){
+            System.out.println(undo.pop());
+        }
+    } //debug
 
 }
