@@ -4,7 +4,7 @@ Projeto OO - Folha de Pagamento
 
 Início: usando senha **"admin"** que pode ser alterada posteriormente.
 
-FORMATO DE ID: 190021xx@yyy (x = int, y= String, ID completo = String), com limite de 500 funcionários. Pode ser alterado na constante "maxSize" e pela estrutura de dados dinâmica.
+FORMATO DE ID: **190021xx@yyy** (x = int, y= String, ID completo = String), com limite de 500 funcionários. Pode ser alterado na constante "maxSize" e pela estrutura de dados dinâmica.
 
 Após, terá as opções:
 
